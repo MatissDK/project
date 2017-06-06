@@ -86,7 +86,7 @@
 
   // Set up Backbone appropriately for the environment. Start with AMD.
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(3), __webpack_require__(2), exports], __WEBPACK_AMD_DEFINE_RESULT__ = function(_, $, exports) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2), __webpack_require__(1), exports], __WEBPACK_AMD_DEFINE_RESULT__ = function(_, $, exports) {
       // Export global even in AMD case in case this script is loaded with
       // others that may still expect a global Backbone.
       root.Backbone = factory(root, exports, _, $);
@@ -1992,26 +1992,10 @@
   return Backbone;
 });
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Backbone = __webpack_require__(0);
-
-var Message = Backbone.Model.extend({
-  defaults: {
-    Title : 'default',
-    Status: 'done'
-  }
-
-});
-
-module.exports = Message;
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -12271,7 +12255,7 @@ return jQuery;
 
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -13826,14 +13810,30 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Backbone = __webpack_require__(0);
+
+var Message = Backbone.Model.extend({
+  defaults: {
+    Title : 'default',
+    Status: 'done'
+  }
+
+});
+
+module.exports = Message;
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var AddMessageView = __webpack_require__(6);
-var MessagesView = __webpack_require__(7);
-var MessagesCollection = __webpack_require__(5);
-var $ = __webpack_require__(2);
-var _ = __webpack_require__(3);
+var AddMessageView = __webpack_require__(7);
+var MessagesView = __webpack_require__(8);
+var MessagesCollection = __webpack_require__(6);
+var $ = __webpack_require__(1);
+var _ = __webpack_require__(2);
 
 // window._ = _;
 // window.$ = $;
@@ -13846,24 +13846,51 @@ new MessagesView({collection: messages}).setElement('#todos');
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-var Backbone = __webpack_require__(0);
-var Message = __webpack_require__(1);
+var g;
 
-var MessagesCollection = Backbone.Collection.extend({
-  model: Message,
-  url: 'http://localhost:3000/todo'
-});
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
 
-module.exports = MessagesCollection
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Backbone = __webpack_require__(0);
-var Message = __webpack_require__(1);
+var Message = __webpack_require__(3);
+
+var MessagesCollection = Backbone.Collection.extend({
+  model: Message,
+  url: 'http://localhost:4000/todo'
+});
+
+module.exports = MessagesCollection
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Backbone = __webpack_require__(0);
+var Message = __webpack_require__(3);
 
 var AddMessageView = Backbone.View.extend({
   events: {
@@ -13894,11 +13921,11 @@ var AddMessageView = Backbone.View.extend({
 module.exports = AddMessageView;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Backbone = __webpack_require__(0);
-var MessageView = __webpack_require__(8);
+var MessageView = __webpack_require__(9);
 
 
 var MessagesView =  Backbone.View.extend({
@@ -13917,7 +13944,7 @@ module.exports = MessagesView;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Backbone = __webpack_require__(0);
@@ -13932,33 +13959,6 @@ var MessageView = Backbone.View.extend({
 });
 
 module.exports = MessageView;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
 
 /***/ }),
 /* 10 */

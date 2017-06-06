@@ -14,6 +14,7 @@ getTaskById: (id, callback)=>
 
 addTask:(Task,callback)=>
 {
+    console.log(Task);
   return db.query("Insert into task values(?,?,?)",[Task.Id,Task.Title,Task.Status],callback);
 },
 

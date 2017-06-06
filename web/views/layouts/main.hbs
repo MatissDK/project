@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        {{ title }}
+    </title>
+</head>
+<body>
+<h1>{{ title }}</h1>
+
+<div id="app-container">
+    <div id="add-message">
+        <form method="post">
+            <label for="message">Message</label>
+            <input type="text" name="message" id="message" />
+            <input type="submit" value="Add">
+        </form>
+    </div>
+    <ul id="todos"></ul>
+</div>
+
+{{{ body }}}
+
+    <script src="../../assets/bundle.js"></script>
+</body>
+</html>
